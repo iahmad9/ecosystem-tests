@@ -1,2 +1,2 @@
 # ecosystem-tests
-runecosystem-tests
+run-ecosystem-tests
