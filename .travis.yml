@@ -18,3 +18,4 @@ script:
   - bzr branch lp:snappy-ecosystem-tests
   - cd snappy-ecosystem-tests
   - ls -la
+  - ./run_setup
