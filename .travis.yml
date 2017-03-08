@@ -1,0 +1,20 @@
+sudo: required
+dist: xenial
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
+  - sudo apt-get -qq update
+  - sudo apt-get install -y bzr lxd
+
+language: python
+
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+
+
+script:
+  - bzr branch lp:snappy-ecosystem-tests
+  - cd snappy-ecosystem-tests
+  - ls -la
