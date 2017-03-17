@@ -1,19 +1,23 @@
 sudo: required
 dist: trusty
-
 before_install:
-  - sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
-  - sudo apt-get -qq update
-  - sudo apt-get install -y bzr lxd build-essential libffi-dev libssl-dev python-dev 
-
+- openssl aes-256-cbc -K $encrypted_cfefb2411dec_key -iv $encrypted_cfefb2411dec_iv -in deploy_key.enc -out deploy_key -d
+- sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
+- sudo apt-get -qq update
+- sudo apt-get install -y bzr lxd build-essential libffi-dev libssl-dev python-dev
 language: python
-
 python:
-  - "3.5"
+- '3.5'
 
+after_success:
+- eval "$(ssh-agent)"
+- chmod 600 deploy_key
+- mv deploy_key ~/.ssh/id_rsa
+- ssh-add ~/.ssh/id_rsa
+- ssh-keyscan -t ecdsa $host 2>&1 | tee -a $HOME/.ssh/know_hosts
 
 script:
-  - bzr branch lp:snappy-ecosystem-tests
-  - cd snappy-ecosystem-tests
-  - ls -la
-  - ./run_setup
+- bzr branch lp:snappy-ecosystem-tests
+- cd snappy-ecosystem-tests
+- ls -la
+- "./run_setup"
